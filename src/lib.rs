@@ -26,79 +26,143 @@ mod tests {
     }
 }
 
-pub trait Intz {
-	// fn augment(self) -> Iz<Self>;
+// FIXME: replace by i32
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Iz32 {
+    v: i32,
 }
 
-#[derive(Debug, PartialEq)]
-pub struct Iz32 {}
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Iz<T: Intz> {
+    hi: T,
+    lo: T,
+}
+
+pub trait Intz {
+    fn depth(&self) -> u32;
+    fn zero(&self) -> Self;
+    fn augment(self) -> Iz<Self>
+    where
+        Self: std::marker::Sized;
+}
+
+impl Intz for Iz32 {
+    fn depth(&self) -> u32 {
+        0
+    }
+    fn zero(&self) -> Self {
+        Self { v:0, }
+    }
+    fn augment(self) -> Iz<Self> {
+        Iz {
+            hi: self.zero(),
+            lo: self,
+        }
+    }
+}
+
+impl Intz for Iz<Iz32> {
+    fn depth(&self) -> u32 {
+        0
+    }
+    fn zero(&self) -> Self {
+        Self {
+            hi: self.hi.zero(),
+            lo: self.lo.zero(),
+        }
+    }
+    fn augment(self) -> Iz<Self> {
+        Iz {
+            hi: self.zero(),
+            lo: self,
+        }
+    }
+}
 
 impl std::ops::Add for Iz32 {
     type Output = Self;
     fn add(self, other: Self) -> Self {
-        Self {}
+        Self { v:0, }
     }
 }
 
 impl std::ops::Add<i32> for Iz32 {
     type Output = Self;
     fn add(self, other: i32) -> Self {
-        Self {}
+        Self { v:0, }
     }
 }
 
 impl std::ops::AddAssign for Iz32 {
-    fn add_assign(&mut self, other: Self) {
-    }
+    fn add_assign(&mut self, other: Self) {}
 }
 
 impl std::ops::AddAssign<i32> for Iz32 {
-    fn add_assign(&mut self, other: i32) {
+    fn add_assign(&mut self, other: i32) {}
+}
+
+impl std::ops::Sub for Iz32 {
+    type Output = Self;
+    fn sub(self, other: Self) -> Self {
+        Self { v:0, }
     }
 }
+
+impl std::ops::Sub<i32> for Iz32 {
+    type Output = Self;
+    fn sub(self, other: i32) -> Self {
+        Self { v:0, }
+    }
+}
+
+impl std::ops::SubAssign for Iz32 {
+    fn sub_assign(&mut self, other: Self) {}
+}
+
+impl std::ops::SubAssign<i32> for Iz32 {
+    fn sub_assign(&mut self, other: i32) {}
+}
+
 
 impl std::ops::Mul for Iz32 {
     type Output = Self;
     fn mul(self, other: Self) -> Self {
-        Self {}
+        Self { v:0, }
     }
 }
 
 impl std::ops::Mul<i32> for Iz32 {
     type Output = Self;
     fn mul(self, other: i32) -> Self {
-        Self {}
+        Self { v:0, }
     }
 }
 
 impl std::ops::MulAssign for Iz32 {
-    fn mul_assign(&mut self, other: Self) {
-    }
+    fn mul_assign(&mut self, other: Self) {}
 }
 
 impl std::ops::MulAssign<i32> for Iz32 {
-    fn mul_assign(&mut self, other: i32) {
-    }
+    fn mul_assign(&mut self, other: i32) {}
 }
 
 impl std::ops::Neg for Iz32 {
     type Output = Self;
     fn neg(self) -> Self::Output {
-		Self {}
+        Self { v:0, }
     }
 }
 
 impl std::ops::Div<i32> for Iz32 {
     type Output = Self;
     fn div(self, other: i32) -> Self {
-        Self {}
+        Self { v:0, }
     }
 }
 
 impl std::ops::Rem<i32> for Iz32 {
     type Output = Self;
     fn rem(self, other: i32) -> Self {
-        Self {}
+        Self { v:0, }
     }
 }
-
