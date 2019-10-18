@@ -18,151 +18,32 @@
  * along with intz.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
-}
-
-// FIXME: replace by i32
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Iz32 {
-    v: i32,
-}
-
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Iz<T: Intz> {
+pub struct Uz<T: Uintz> {
     hi: T,
     lo: T,
 }
 
-pub trait Intz {
-    fn depth(&self) -> u32;
-    fn zero(&self) -> Self;
-    fn augment(self) -> Iz<Self>
-    where
-        Self: std::marker::Sized;
+pub trait Uintz {
+    fn addc(self, other: Self, carry: bool) -> (Self, bool) where Self: std::marker::Sized;
 }
 
-impl Intz for Iz32 {
-    fn depth(&self) -> u32 {
-        0
-    }
-    fn zero(&self) -> Self {
-        Self { v:0, }
-    }
-    fn augment(self) -> Iz<Self> {
-        Iz {
-            hi: self.zero(),
-            lo: self,
-        }
+impl Uintz for Uz<Uz32> {
+    fn addc(self, other: Self, carry: bool) -> (Self, bool) {
+        let (lo, loc) = self.lo.addc(other.lo, carry);
+        let (hi, hic) = self.hi.addc(other.hi, loc);
+        (Self { lo, hi, }, hic)
     }
 }
 
-impl Intz for Iz<Iz32> {
-    fn depth(&self) -> u32 {
-        0
-    }
-    fn zero(&self) -> Self {
-        Self {
-            hi: self.hi.zero(),
-            lo: self.lo.zero(),
-        }
-    }
-    fn augment(self) -> Iz<Self> {
-        Iz {
-            hi: self.zero(),
-            lo: self,
-        }
-    }
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Uz32 {
+    v: u32,
 }
 
-impl std::ops::Add for Iz32 {
-    type Output = Self;
-    fn add(self, other: Self) -> Self {
-        Self { v:0, }
-    }
-}
-
-impl std::ops::Add<i32> for Iz32 {
-    type Output = Self;
-    fn add(self, other: i32) -> Self {
-        Self { v:0, }
-    }
-}
-
-impl std::ops::AddAssign for Iz32 {
-    fn add_assign(&mut self, other: Self) {}
-}
-
-impl std::ops::AddAssign<i32> for Iz32 {
-    fn add_assign(&mut self, other: i32) {}
-}
-
-impl std::ops::Sub for Iz32 {
-    type Output = Self;
-    fn sub(self, other: Self) -> Self {
-        Self { v:0, }
-    }
-}
-
-impl std::ops::Sub<i32> for Iz32 {
-    type Output = Self;
-    fn sub(self, other: i32) -> Self {
-        Self { v:0, }
-    }
-}
-
-impl std::ops::SubAssign for Iz32 {
-    fn sub_assign(&mut self, other: Self) {}
-}
-
-impl std::ops::SubAssign<i32> for Iz32 {
-    fn sub_assign(&mut self, other: i32) {}
-}
-
-
-impl std::ops::Mul for Iz32 {
-    type Output = Self;
-    fn mul(self, other: Self) -> Self {
-        Self { v:0, }
-    }
-}
-
-impl std::ops::Mul<i32> for Iz32 {
-    type Output = Self;
-    fn mul(self, other: i32) -> Self {
-        Self { v:0, }
-    }
-}
-
-impl std::ops::MulAssign for Iz32 {
-    fn mul_assign(&mut self, other: Self) {}
-}
-
-impl std::ops::MulAssign<i32> for Iz32 {
-    fn mul_assign(&mut self, other: i32) {}
-}
-
-impl std::ops::Neg for Iz32 {
-    type Output = Self;
-    fn neg(self) -> Self::Output {
-        Self { v:0, }
-    }
-}
-
-impl std::ops::Div<i32> for Iz32 {
-    type Output = Self;
-    fn div(self, other: i32) -> Self {
-        Self { v:0, }
-    }
-}
-
-impl std::ops::Rem<i32> for Iz32 {
-    type Output = Self;
-    fn rem(self, other: i32) -> Self {
-        Self { v:0, }
+impl Uintz for Uz32 {
+    fn addc(self, other: Self, carry: bool) -> (Self, bool) {
+        let v: u64 = self.v as u64 + other.v as u64 + if carry { 1 } else { 0 };
+        (Self { v:(v % 2^32) as u32 }, v / 2^32 != 0)
     }
 }
