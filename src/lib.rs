@@ -18,12 +18,6 @@
  * along with intz.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Uz<T: Uintz> {
-    hi: T,
-    lo: T,
-}
-
 pub trait Uintz {
     fn addc(self, other: Self, carry: bool) -> (Self, bool)
     where
@@ -31,6 +25,12 @@ pub trait Uintz {
     fn subb(self, other: Self, borrow: bool) -> (Self, bool)
     where
         Self: std::marker::Sized;
+}
+
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Uz<T: Uintz> {
+    hi: T,
+    lo: T,
 }
 
 impl Uintz for Uz<Uz32> {
@@ -75,9 +75,54 @@ impl Uintz for Uz32 {
     }
 }
 
+pub trait Intz {
+    fn add(self, other: Self) -> Option<Self>
+    where
+        Self: std::marker::Sized;
+}
+
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Iz<T: Uintz> {
     p: bool,
-    hi: T,
-    lo: T,
+    u: T,
 }
+
+impl Intz for Iz<Uz32> {
+    fn add(self, other: Self) -> Option<Self> {
+        if self.p == other.p {
+            let (nu, c) = self.u.addc(other.u, false);
+            if c { None } else { Some(Self { p: self.p, u: nu }) }
+        }
+        else {
+            if self.u >= other.u {
+                let (nu, _) = self.u.subb(other.u, false);
+                Some(Self { p: self.p, u: nu })
+            }
+            else {
+                let (nu, _) = other.u.subb(self.u, false);
+                Some(Self { p: other.p, u: nu })
+            }
+        }
+    }
+}
+
+impl Intz for Iz<Uz<Uz32>> {
+    fn add(self, other: Self) -> Option<Self> {
+        if self.p == other.p {
+            let (nu, c) = self.u.addc(other.u, false);
+            if c { None } else { Some(Self { p: self.p, u: nu }) }
+        }
+        else {
+            if self.u >= other.u {
+                let (nu, _) = self.u.subb(other.u, false);
+                Some(Self { p: self.p, u: nu })
+            }
+            else {
+                let (nu, _) = other.u.subb(self.u, false);
+                Some(Self { p: other.p, u: nu })
+            }
+        }
+    }
+}
+
+
