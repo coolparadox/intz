@@ -18,19 +18,75 @@
  * along with intz.  If not, see <http://www.gnu.org/licenses/>
  */
 
-use crate::unsigned::uz32;
 use crate::unsigned::uz32::Uz32;
 use crate::unsigned::Uintz;
 
 #[cfg(test)]
 mod tests {
 
+    use crate::unsigned::uz32;
     use super::*;
 
-    #[test]
-    fn augment0() {
-        let _ = uz32::new(0).augment();
+    fn new(v: u32) -> Uz<Uz32> {
+        uz32::new(v).augment()
     }
+
+    #[test]
+    fn eq0() {
+        assert_eq!(new(0), new(0));
+    }
+
+    #[test]
+    fn eq1() {
+        assert_ne!(new(0), new(1));
+    }
+
+    #[test]
+    fn eq2() {
+        assert_eq!(new(u32::max_value()), new(u32::max_value()));
+    }
+
+    #[test]
+    fn ord0() {
+        assert!(new(0) < new(1));
+    }
+
+    #[test]
+    fn ord1() {
+        assert!(new(0) < new(u32::max_value()));
+    }
+
+    #[test]
+    fn add0() {
+        assert_eq!(new(0) + new(0), new(0))
+    }
+
+    #[test]
+    fn add1() {
+        assert_eq!(new(0) + new(1), new(1))
+    }
+
+    #[test]
+    fn add2() {
+        assert_eq!(new(1) + new(2), new(3))
+    }
+
+    #[test]
+    fn add3() {
+        assert_eq!(new(u32::max_value()) + new(0), new(u32::max_value()))
+    }
+
+    #[test]
+    fn add4() {
+        let _ = new(u32::max_value()) + new(1);
+    }
+
+    #[test]
+    fn add5() {
+        let _ = new(u32::max_value()) + new(u32::max_value());
+    }
+
+    // FIXME: u32 methods at https://doc.rust-lang.org/std/primitive.u32.html
 
 }
 
@@ -60,21 +116,7 @@ impl Uintz for Uz<Uz32> {
     }
 }
 
-/*
-
-impl Uintz for Uz32 {
-    fn addc(self, other: Self, carry: bool) -> (Self, bool) {
-        let nv: u64 = self.v as u64 + other.v as u64 + if carry { 1 } else { 0 };
-        (
-            Self {
-                v: (nv % 0x100000000u64) as u32,
-            },
-            nv / 0x100000000u64 != 0,
-        )
-    }
-}
-
-impl std::ops::Add for Uz32 {
+impl std::ops::Add for Uz<Uz32> {
     type Output = Self;
 
     fn add(self, o: Self) -> Self {
@@ -85,5 +127,3 @@ impl std::ops::Add for Uz32 {
         v
     }
 }
-
-*/
