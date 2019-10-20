@@ -50,10 +50,33 @@ mod tests {
         assert!(new(0) < new(u32::max_value()));
     }
 
-    // #[test]
-    // fn add0() {
-        // assert_eq!(new(0) + new(0), new(0))
-    // }
+    #[test]
+    fn add0() {
+        assert_eq!(new(0) + new(0), new(0))
+    }
+
+    #[test]
+    fn add1() {
+        assert_eq!(new(0) + new(1), new(1))
+    }
+
+    #[test]
+    fn add2() {
+        assert_eq!(new(1) + new(2), new(3))
+    }
+
+    #[test]
+    fn add3() {
+        assert_eq!(new(u32::max_value()) + new(0), new(u32::max_value()))
+    }
+
+    #[test]
+    #[should_panic(expected = "integer overflow")]
+    fn add4() {
+        let _ = new(u32::max_value()) + new(1);
+    }
+
+    // FIXME: u32 methods at https://doc.rust-lang.org/std/primitive.u32.html
 
 }
 
@@ -75,5 +98,17 @@ impl Uintz for Uz32 {
             },
             nv / 0x100000000u64 != 0,
         )
+    }
+}
+
+impl std::ops::Add for Uz32 {
+    type Output = Self;
+
+    fn add(self, o: Self) -> Self {
+        let (v, c) = self.addc(o, false);
+        if c {
+            panic!("integer overflow");
+        }
+        v
     }
 }
