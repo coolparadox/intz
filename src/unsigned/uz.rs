@@ -18,14 +18,16 @@
  * along with intz.  If not, see <http://www.gnu.org/licenses/>
  */
 
+use crate::unsigned;
 use crate::unsigned::uz32::Uz32;
 use crate::unsigned::Uintz;
+use crate::unsigned::Uz;
 
 #[cfg(test)]
 mod tests {
 
-    use crate::unsigned::uz32;
     use super::*;
+    use crate::unsigned::uz32;
 
     fn new(v: u32) -> Uz<Uz32> {
         uz32::new(v).augment()
@@ -90,29 +92,19 @@ mod tests {
 
 }
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Uz<T: Uintz> {
-    hi: T,
-    lo: T,
-}
-
-pub fn new<T: Uintz>(hi: T, lo: T) -> Uz<T> {
-    Uz { hi, lo }
-}
-
 impl Uintz for Uz<Uz32> {
     fn zero(&self) -> Self {
-        new(self.hi.zero(), self.lo.zero())
+        unsigned::new(self.hi.zero(), self.lo.zero())
     }
 
     fn augment(self) -> Uz<Self> {
-        new(self.zero(), self)
+        unsigned::new(self.zero(), self)
     }
 
     fn addc(self, other: Self, carry: bool) -> (Self, bool) {
         let (lo, loc) = self.lo.addc(other.lo, carry);
         let (hi, hic) = self.hi.addc(other.hi, loc);
-        (new(hi, lo), hic)
+        (unsigned::new(hi, lo), hic)
     }
 }
 

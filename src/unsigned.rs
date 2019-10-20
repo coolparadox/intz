@@ -21,7 +21,11 @@
 pub mod uz;
 pub mod uz32;
 
-use uz::Uz;
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Uz<T: Uintz> {
+    hi: T,
+    lo: T,
+}
 
 pub trait Uintz {
     fn zero(&self) -> Self;
@@ -33,4 +37,9 @@ pub trait Uintz {
     fn addc(self, other: Self, carry: bool) -> (Self, bool)
     where
         Self: std::marker::Sized;
+}
+
+// FIXME: drop hi?
+pub fn new<T: Uintz>(hi: T, lo: T) -> Uz<T> {
+    Uz { hi, lo }
 }

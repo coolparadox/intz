@@ -18,9 +18,9 @@
  * along with intz.  If not, see <http://www.gnu.org/licenses/>
  */
 
-use crate::unsigned::uz;
-use crate::unsigned::uz::Uz;
+use crate::unsigned;
 use crate::unsigned::Uintz;
+use crate::unsigned::Uz;
 
 #[cfg(test)]
 mod tests {
@@ -97,7 +97,7 @@ impl Uintz for Uz32 {
     }
 
     fn augment(self) -> Uz<Self> {
-        uz::new(self.zero(), self)
+        unsigned::new(self.zero(), self)
     }
 
     fn addc(self, other: Self, carry: bool) -> (Self, bool) {
