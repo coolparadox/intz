@@ -20,6 +20,7 @@
 
 pub mod uz;
 pub mod uz32;
+pub mod uzz;
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Uz<T: Uintz> {
