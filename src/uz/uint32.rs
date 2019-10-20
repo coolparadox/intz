@@ -32,24 +32,28 @@ mod tests {
 
     #[test]
     fn eq1() {
-        assert_eq!(new(u32::max_value()), new(u32::max_value()));
+        assert_ne!(new(0), new(1));
     }
 
     #[test]
     fn eq2() {
-        assert_ne!(new(0), new(u32::max_value()));
+        assert_eq!(new(u32::max_value()), new(u32::max_value()));
     }
 
-//     #[test]
-//     fn add0() {
-//         assert_eq!(new(0) + new(0), new(0));
-//     }
+    #[test]
+    fn ord0() {
+        assert!(new(0) < new(1));
+    }
 
-//     #[test]
-//     #[should_panic(expected = "division by zero")]
-//     fn forbids_undefined_ratio() {
-//         new(true, 0, 0);
-//     }
+    #[test]
+    fn ord1() {
+        assert!(new(0) < new(u32::max_value()));
+    }
+
+    // #[test]
+    // fn add0() {
+        // assert_eq!(new(0) + new(0), new(0))
+    // }
 
 }
 
