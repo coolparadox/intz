@@ -18,6 +18,9 @@
  * along with intz.  If not, see <http://www.gnu.org/licenses/>
  */
 
+pub mod uz;
+
+/*
 pub trait Uintz {
     fn is_zero(&self) -> bool;
     fn addc(self, other: Self, carry: bool) -> (Self, bool)
@@ -166,3 +169,4 @@ impl Intz for Iz<Uz<Uz32>> {
         self.add(other.neg())
     }
 }
+*/
