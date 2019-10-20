@@ -18,7 +18,7 @@
  * along with intz.  If not, see <http://www.gnu.org/licenses/>
  */
 
-pub mod uz;
+pub mod unsigned;
 
 /*
 pub trait Uintz {

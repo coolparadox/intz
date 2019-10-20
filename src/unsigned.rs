@@ -18,9 +18,18 @@
  * along with intz.  If not, see <http://www.gnu.org/licenses/>
  */
 
-pub mod uint32;
+pub mod uz;
+pub mod uz32;
+
+use uz::Uz;
 
 pub trait Uintz {
+    fn zero(&self) -> Self;
+
+    fn augment(self) -> Uz<Self>
+    where
+        Self: std::marker::Sized;
+
     fn addc(self, other: Self, carry: bool) -> (Self, bool)
     where
         Self: std::marker::Sized;

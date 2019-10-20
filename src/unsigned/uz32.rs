@@ -18,7 +18,9 @@
  * along with intz.  If not, see <http://www.gnu.org/licenses/>
  */
 
-use crate::uz::Uintz;
+use crate::unsigned::uz;
+use crate::unsigned::uz::Uz;
+use crate::unsigned::Uintz;
 
 #[cfg(test)]
 mod tests {
@@ -90,6 +92,14 @@ pub fn new(v: u32) -> Uz32 {
 }
 
 impl Uintz for Uz32 {
+    fn zero(&self) -> Self {
+        new(0)
+    }
+
+    fn augment(self) -> Uz<Self> {
+        uz::new(self.zero(), self)
+    }
+
     fn addc(self, other: Self, carry: bool) -> (Self, bool) {
         let nv: u64 = self.v as u64 + other.v as u64 + if carry { 1 } else { 0 };
         (
