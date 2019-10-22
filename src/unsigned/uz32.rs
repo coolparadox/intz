@@ -18,7 +18,6 @@
  * along with intz.  If not, see <http://www.gnu.org/licenses/>
  */
 
-use crate::unsigned;
 use crate::unsigned::Uintz;
 use crate::unsigned::Uz;
 
@@ -93,11 +92,16 @@ pub fn new(v: u32) -> Uz32 {
 
 impl Uintz for Uz32 {
     fn zero(&self) -> Self {
-        new(0)
+        Self {
+            v: 0,
+        }
     }
 
     fn augment(self) -> Uz<Self> {
-        unsigned::new(self.zero(), self)
+        Uz {
+            hi: self.zero(),
+            lo: self,
+        }
     }
 
     fn addc(self, other: Self, carry: bool) -> (Self, bool) {

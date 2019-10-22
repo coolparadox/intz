@@ -20,7 +20,6 @@
 
 pub mod uz;
 pub mod uz32;
-pub mod uzz;
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Uz<T: Uintz> {
@@ -40,7 +39,3 @@ pub trait Uintz {
         Self: std::marker::Sized;
 }
 
-// FIXME: drop hi?
-pub fn new<T: Uintz>(hi: T, lo: T) -> Uz<T> {
-    Uz { hi, lo }
-}
