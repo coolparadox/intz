@@ -22,7 +22,7 @@
 // use crate::unsigned::Uintz;
 // use crate::unsigned::Uz;
 
-use hello_macro_derive::HelloMacro;
+use intz_derive::HelloMacro;
 
 #[derive(HelloMacro)]
 struct Pancakes;
