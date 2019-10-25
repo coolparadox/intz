@@ -19,9 +19,14 @@
  */
 
 use intz_utrait::Uintz;
-use intz_utrait::Uz;
 
 use crate::unsigned::uz32::Uz32;
+
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Uz<T: Uintz> {
+    hi: T,
+    lo: T,
+}
 
 impl Uintz for Uz<Uz32> {
 
@@ -32,12 +37,12 @@ impl Uintz for Uz<Uz32> {
         }
     }
 
-    fn augment(self) -> Uz<Self> {
-        Uz {
-            hi: self.zero(),
-            lo: self,
-        }
-    }
+//     fn augment(self) -> Uz<Self> {
+//         Uz {
+//             hi: self.zero(),
+//             lo: self,
+//         }
+//     }
 
     fn addc(self, other: Self, carry: bool) -> (Self, bool) {
         let (lo, loc) = self.lo.addc(other.lo, carry);

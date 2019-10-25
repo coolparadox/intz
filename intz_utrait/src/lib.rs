@@ -18,18 +18,12 @@
  * along with intz.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Uz<T: Uintz> {
-    hi: T,
-    lo: T,
-}
-
 pub trait Uintz {
     fn zero(&self) -> Self;
 
-    fn augment(self) -> Uz<Self>
-    where
-        Self: std::marker::Sized;
+//     fn augment(self) -> Uz<Self>
+//     where
+//         Self: std::marker::Sized;
 
     fn addc(self, other: Self, carry: bool) -> (Self, bool)
     where

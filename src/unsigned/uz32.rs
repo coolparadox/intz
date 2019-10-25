@@ -19,7 +19,6 @@
  */
 
 use intz_utrait::Uintz;
-use intz_utrait::Uz;
 
 #[cfg(test)]
 mod tests {
@@ -97,12 +96,12 @@ impl Uintz for Uz32 {
         }
     }
 
-    fn augment(self) -> Uz<Self> {
-        Uz {
-            hi: self.zero(),
-            lo: self,
-        }
-    }
+//     fn augment(self) -> Uz<Self> {
+//         Uz {
+//             hi: self.zero(),
+//             lo: self,
+//         }
+//     }
 
     fn addc(self, other: Self, carry: bool) -> (Self, bool) {
         let nv: u64 = self.v as u64 + other.v as u64 + if carry { 1 } else { 0 };
