@@ -18,44 +18,31 @@
  * along with intz.  If not, see <http://www.gnu.org/licenses/>
  */
 
-// use crate::unsigned::uz32::Uz32;
-// use crate::unsigned::Uintz;
-// use crate::unsigned::Uz;
+use intz_utrait::Uintz;
+use intz_utrait::Uz;
+use crate::unsigned::uz32::Uz32;
 
-use intz_derive::HelloMacro;
+impl Uintz for Uz<Uz32> {
 
-#[derive(HelloMacro)]
-struct Pancakes;
-
-// [dependencies]
-// hello_macro = { path = "../hello_macro" }
-// hello_macro_derive = { path = "../hello_macro/hello_macro_derive" }
-
-/*
-macro_rules! uintz_impl {
-    () => impl Uintz for Uz<Uz32> {
-
-        fn zero(&self) -> Self {
-            Self {
-                hi: self.hi.zero(),
-                lo: self.lo.zero(),
-            }
+    fn zero(&self) -> Self {
+        Self {
+            hi: self.hi.zero(),
+            lo: self.lo.zero(),
         }
-
-        fn augment(self) -> Uz<Self> {
-            Uz {
-                hi: self.zero(),
-                lo: self,
-            }
-        }
-
-        fn addc(self, other: Self, carry: bool) -> (Self, bool) {
-            let (lo, loc) = self.lo.addc(other.lo, carry);
-            let (hi, hic) = self.hi.addc(other.hi, loc);
-            (Self { hi, lo }, hic)
-        }
-
     }
+
+    fn augment(self) -> Uz<Self> {
+        Uz {
+            hi: self.zero(),
+            lo: self,
+        }
+    }
+
+    fn addc(self, other: Self, carry: bool) -> (Self, bool) {
+        let (lo, loc) = self.lo.addc(other.lo, carry);
+        let (hi, hic) = self.hi.addc(other.hi, loc);
+        (Self { hi, lo }, hic)
+    }
+
 }
-*/
 

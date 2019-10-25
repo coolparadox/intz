@@ -18,7 +18,11 @@
  * along with intz.  If not, see <http://www.gnu.org/licenses/>
  */
 
-use intz_uz::Uz;
+#[derive(Debug, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Uz<T: Uintz> {
+    hi: T,
+    lo: T,
+}
 
 pub trait Uintz {
     fn zero(&self) -> Self;

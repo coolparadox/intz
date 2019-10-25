@@ -18,8 +18,8 @@
  * along with intz.  If not, see <http://www.gnu.org/licenses/>
  */
 
-use crate::unsigned::Uintz;
-use crate::unsigned::Uz;
+use intz_utrait::Uintz;
+use intz_utrait::Uz;
 
 #[cfg(test)]
 mod tests {
