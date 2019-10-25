@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 intz_utrait = { path = "intz_utrait" }
+intz_utrait_derive = { path = "intz_utrait/intz_utrait_derive" }

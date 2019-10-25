@@ -21,10 +21,6 @@
 pub trait Uintz {
     fn zero(&self) -> Self;
 
-//     fn augment(self) -> Uz<Self>
-//     where
-//         Self: std::marker::Sized;
-
     fn addc(self, other: Self, carry: bool) -> (Self, bool)
     where
         Self: std::marker::Sized;
