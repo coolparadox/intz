@@ -20,6 +20,7 @@
 
 use intz_utrait::Uintz;
 use intz_utrait::Uz;
+
 use crate::unsigned::uz32::Uz32;
 
 impl Uintz for Uz<Uz32> {
